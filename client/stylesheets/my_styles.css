@@ -1,0 +1,12 @@
+div.menuItem{
+  background-color: #ddd;
+  margin:2px;
+  padding: 5px;
+}
+div.menuEdit{
+  margin:0px;
+  padding: 5px;
+}
+div.menuHead{
+  margin:2px;
+}

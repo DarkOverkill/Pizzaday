@@ -1,0 +1,41 @@
+<template name="orderMenu">
+  <div class="container">
+    <div class="row">
+
+    <div class="col-md-3"></div>
+
+    <div class="col-md-7">
+      <div class="row">
+        <div class="col-md-6 menuHead">
+          <h3>Items name:</h3>
+        </div>
+        <div class="col-md-3 menuHead">
+          <h3>Items Price:</h3>
+        </div>
+      </div>
+    {{#each items}}
+    <div class="row">
+
+      <div class="col-md-6 menuItem">
+        {{name}}
+      </div>
+      <div class="col-md-3 menuItem">
+        {{price}}
+      </div>
+      <div class="col-md-2 menuEdit">
+        <button name="edit"><span class="glyphicon glyphicon-pencil"></span></button>
+      </div>
+    </div>
+
+    {{/each}}
+    </div>
+
+    <div class="col-md-2"></div>
+  </div>
+    <div class="row">
+      <div class="col-md-3">
+      </div>
+      <input type="button" name="createItem" value="Add new Item">
+    </div>
+  </div>
+</template>
