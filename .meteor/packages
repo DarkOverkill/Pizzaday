@@ -21,3 +21,5 @@ insecure                # Allow all DB writes from clients (for prototyping)
 mrt:bootstrap-3
 iron:router
 fortawesome:fontawesome
+accounts-ui
+accounts-password

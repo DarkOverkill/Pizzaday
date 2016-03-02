@@ -10,3 +10,6 @@ div.menuEdit{
 div.menuHead{
   margin:2px;
 }
+#myModal.modal-dialog {
+width: 500px!important;
+}

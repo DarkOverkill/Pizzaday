@@ -12,14 +12,102 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="pizzaEvent">New pizza event</a></li>
-        <li><a href="createGroup">Create group</a></li>
+        <li><a href="groupManager">Group manager</a></li>
         <li><a href="orderMenu">Order menu</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="fa fa-google-plus"></span></a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+        {{#if currentUser}}
+          <li><a><b>{{currentUser.username}}</b></a></li>
+          <li><a href="#" name="logout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+        {{else}}
+          <li><a href="#"><span class="fa fa-google-plus"></span></a></li>
+          <li><a href="#" data-toggle="modal" data-target="#modal-reg" name="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#modal-login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+        {{/if}}
+        {{> loginButtons}}
       </ul>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" id="myModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="">Login</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4 class="modal-title" id="">Username: </h4><input type="text" class="form-control" id="userName">
+          </div>
+          <div class="col-sm-6">
+            <h4 class="modal-title" id="">Password: </h4><input type="password" class="form-control" id="pass">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" name="enter">Enter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-reg" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" id="myModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="">New user registration</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-sm-2">
+          </div>
+          <div class="col-sm-8">
+            <h4 class="modal-title" id="">Username: </h4><input type="text" class="form-control" id="newUserName">
+          </div>
+          <div class="col-sm-2">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-2">
+          </div>
+          <div class="col-sm-8">
+            <h4 class="modal-title" id="">Email: </h4><input type="text" class="form-control" id="newUserEmail">
+          </div>
+          <div class="col-sm-2">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-2">
+          </div>
+          <div class="col-sm-8">
+            <h4 class="modal-title" id="">Password: </h4><input type="password" class="form-control" id="newUserPass">
+          </div>
+          <div class="col-sm-2">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-2">
+          </div>
+          <div class="col-sm-8">
+            <h4 class="modal-title" id="">Confirm Pass: </h4><input type="password" class="form-control" id="newUserPassConfirm">
+          </div>
+          <div class="col-sm-2">
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" name="registrate">Registrate</button>
+      </div>
     </div>
   </div>
 </div>

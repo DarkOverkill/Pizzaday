@@ -19,3 +19,5 @@ if (ItemsData.find().count() === 0) {
     price: '15.70'
 });
 }
+
+//Meteor.users.remove("sJPXgpi8qt6MaGSPD");
