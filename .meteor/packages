@@ -23,3 +23,8 @@ iron:router
 fortawesome:fontawesome
 accounts-ui
 accounts-password
+cfs:filesystem
+cfs:ui
+cfs:gridfs
+cfs:data-man
+cfs:standard-packages

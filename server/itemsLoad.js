@@ -20,4 +20,18 @@ if (ItemsData.find().count() === 0) {
 });
 }
 
+//Meteor.users.update("QGEK4vC5Q5QLa5nxG", {$set: {profile: {group: "developers"}}});
+
 //Meteor.users.remove("sJPXgpi8qt6MaGSPD");
+var photoStore = new FS.Store.GridFS("my_photos", {path: "~/images"});
+
+photos = new FS.Collection("my_photos", {
+    stores: [photoStore],
+    filter: {
+        allow: {
+            contentTypes: ['image/*']
+        }
+      }
+});
+
+console.log('ok');
