@@ -17,7 +17,7 @@ Template.groupManager.events({
         createUser: Meteor.user().username,
         users: [Meteor.user().username]
       });
-      Meteor.users.update(Meteor.userId(), {$set: {group: groupName}});
+      Meteor.users.update(Meteor.userId(), {$set: {profile: {group: groupName}}});
   } else {
       console.log('this groupe exsist');
     }
@@ -35,7 +35,8 @@ Template.groupManager.events({
 });
 
 Template.groupManager.helpers({
-  members: function(){
-    return Group.find({name: 'Dev'});
+  group: function(){
+    return Group.findOne({name: Meteor.user().profile.group});
   }
+  
 });

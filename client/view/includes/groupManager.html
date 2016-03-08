@@ -9,22 +9,39 @@
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-groupCreate">
           Create Group
         </button>
-        <input type="text" name="userName">
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    {{#if currentUser.profile.group}}
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h3><span>{{group.name}}</span></h3>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+
+    {{#each group.users}}
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h5>{{this}}</h5>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    {{/each}}
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <input type="text" name="userName" placeholder="user name">
         <button type="button" class="btn btn-default" name="addUser">
           Add user to group
         </button>
       </div>
       <div class="col-md-2"></div>
     </div>
+    {{/if}}
 
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <h3><span>Your group - </span></h3>
-
-      </div>
-      <div class="col-md-2"></div>
-    </div>
     {{else}}
       <h4>Please login</h4>
     {{/if}}
