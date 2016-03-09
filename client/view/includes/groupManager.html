@@ -1,7 +1,5 @@
 <template name="groupManager">
   <div class="container">
-    <img src="" alt="" />
-    <input type="file" name="test" value="">
     {{#if currentUser}}
     <div class="row">
       <div class="col-md-2"></div>
@@ -15,8 +13,9 @@
     {{#if currentUser.profile.group}}
     <div class="row">
       <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <h3><span>{{group.name}}</span></h3>
+      <div class="col-md-1"><img src="{{logo}}" alt="" id="groupLogoImg"/></div>
+      <div class="col-md-7">
+        <span> <h3>{{group.name}} members:</h3></span>
       </div>
       <div class="col-md-2"></div>
     </div>

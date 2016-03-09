@@ -1,11 +1,14 @@
 Template.groupManager.events({
-  "change input[name='test']": function(event, template){
+  /*"change input[name='test']": function(event, template){
     //newFile = new FS.File(event.target.files);
+    console.log(event);
+    console.log(event.target);
     console.log(event.target.files[0]);
     newFile = new FS.File(event.target.files[0]);
+    newFile.groupLogo = "Dev";
     console.log(newFile);
         photos.insert(newFile);
-  },
+  },*/
 
   "click button[name='registrate']": function(event, template){
     var groupName = $('input#groupName').val();
@@ -18,6 +21,10 @@ Template.groupManager.events({
         users: [Meteor.user().username]
       });
       Meteor.users.update(Meteor.userId(), {$set: {profile: {group: groupName}}});
+      //insert group logo
+      newFile = new FS.File($('input#groupLogo')[0].files[0]);
+      newFile.groupLogo = groupName;
+      photos.insert(newFile);
   } else {
       console.log('this groupe exsist');
     }
@@ -25,11 +32,19 @@ Template.groupManager.events({
 
   "click button[name='addUser']": function(event, template){
     var userName = $('input[name="userName"]').val();
+    var groupName = Meteor.user().profile.group;
     console.log(userName);
-    if (Group.find({users: userName}).count() == 0){
-      Group.update({_id: Group.findOne({name: 'Test'})._id}, {$push: {users: userName}});
+    console.log(groupName);
+    if (Meteor.users.findOne({username: userName})){
+      for (var i = 0; i < Group.findOne({name: groupName}).users.length; i++ ){
+        if (Group.findOne({name: groupName}).users[i] == userName){
+          console.log("user already in group");
+          return;
+        }
+      }
+        Group.update({_id: Group.findOne({name: groupName})._id}, {$push: {users: userName}});
     } else {
-      console.log("user alredy in group");
+      console.log("cann't find a user");
     }
   }
 });
@@ -37,6 +52,9 @@ Template.groupManager.events({
 Template.groupManager.helpers({
   group: function(){
     return Group.findOne({name: Meteor.user().profile.group});
+  },
+  logo: function(){
+    return photos.findOne({groupLogo: Meteor.user().profile.group}).url();
   }
-  
+
 });
