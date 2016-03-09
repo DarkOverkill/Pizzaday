@@ -25,5 +25,14 @@ Template.header.events({
       };
       Accounts.createUser(userObject);
     }
+  },
+
+  "click button[name='accept']": function(event, template){
+    var grName = Meteor.user().profile.toGroup;
+    Group.update({_id: Group.findOne({name: grName})._id}, {$push: {users: Meteor.user().username}});
+    Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.group": grName, "profile.invite": "", "profile.fromUser": "", "profile.toGroup": ""}});
+  },
+  "click button[name='reject']": function(event, template){
+    Meteor.users.update({_id: Meteor.userId()}, {$set: {"profile.invite": "", "profile.fromUser": "", "profile.toGroup": ""}});
   }
 });

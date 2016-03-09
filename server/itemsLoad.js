@@ -34,4 +34,22 @@ photos = new FS.Collection("my_photos", {
       }
 });
 
+Accounts.onCreateUser(function(options, user){
+profile = {
+  invite: "",
+  fromUser: "",
+  toGroup: "",
+  group: ""
+};
+  user.profile = profile;
+  return user;
+});
+Meteor.methods({
+  addInvite: function(_toUser, _fromUser, _toGroup){
+    var userId = Meteor.users.findOne({username: _toUser})._id;
+    Meteor.users.update({_id: userId}, {$set: {"profile.invite": true, "profile.fromUser": _fromUser, "profile.toGroup": _toGroup}});
+    console.log('ok');
+  }
+});
+
 console.log('ok');

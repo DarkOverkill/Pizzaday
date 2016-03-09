@@ -29,16 +29,18 @@
       <div class="col-md-2"></div>
     </div>
     {{/each}}
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <input type="text" name="userName" placeholder="user name">
-        <button type="button" class="btn btn-default" name="addUser">
-          Add user to group
-        </button>
+      {{#if isGroupCreator}}
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <input type="text" name="userName" placeholder="user name">
+          <button type="button" class="btn btn-default" name="addUser">
+            Add user to group
+          </button>
+        </div>
+        <div class="col-md-2"></div>
       </div>
-      <div class="col-md-2"></div>
-    </div>
+      {{/if}}
     {{/if}}
 
     {{else}}

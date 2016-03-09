@@ -14,9 +14,12 @@
         <li class="active"><a href="pizzaEvent">New pizza event</a></li>
         <li><a href="groupManager">Group manager</a></li>
         <li><a href="orderMenu">Order menu</a></li>
+        {{#if currentUser.profile.invite}}
+        <li><a href="#" title="Group invite" data-toggle="modal" data-target="#modal-invite"><span class="glyphicon glyphicon-envelope" style="color:red"></span></a></li>
+        {{/if}}
       </ul>
-      <ul class="nav navbar-nav navbar-right">
 
+      <ul class="nav navbar-nav navbar-right">
         {{#if currentUser}}
           <li><a><b>{{currentUser.username}}</b></a></li>
           <li><a href="#" name="logout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
@@ -30,7 +33,7 @@
     </div>
   </div>
 </div>
-
+<!--modal login-->
 <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog" id="myModal">
     <div class="modal-content">
@@ -54,7 +57,7 @@
     </div>
   </div>
 </div>
-
+<!--modal registration-->
 <div class="modal fade" id="modal-reg" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog" id="myModal">
     <div class="modal-content">
@@ -107,6 +110,33 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-dismiss="modal" name="registrate">Registrate</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--modal invite-->
+<div class="modal fade" id="modal-invite" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" id="myModal">
+    <div class="modal-content">
+      <div class="modal-header">
+
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-sm-2">
+          </div>
+          <div class="col-sm-8">
+            <span>You have invite from <b>{{currentUser.profile.fromUser}}</b> to join in a group <b>{{currentUser.profile.toGroup}}</b></span>
+          </div>
+          <div class="col-sm-2">
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" name="accept">Accept</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" name="reject">Reject</button>
       </div>
     </div>
   </div>

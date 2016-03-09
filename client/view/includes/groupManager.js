@@ -42,7 +42,10 @@ Template.groupManager.events({
           return;
         }
       }
-        Group.update({_id: Group.findOne({name: groupName})._id}, {$push: {users: userName}});
+        Meteor.call("addInvite", userName, Meteor.user().username, groupName);
+
+        //Accounts.users.update({_id: Meteor.users.findOne({username: userName})._id}, {$set: {"profile.invite": true, "profile.fromUser": Meteor.user().username, "profile.toGroup": groupName}});
+        //Group.update({_id: Group.findOne({name: groupName})._id}, {$push: {users: userName}});
     } else {
       console.log("cann't find a user");
     }
@@ -52,6 +55,9 @@ Template.groupManager.events({
 Template.groupManager.helpers({
   group: function(){
     return Group.findOne({name: Meteor.user().profile.group});
+  },
+  isGroupCreator: function(){
+    return Group.findOne({name: Meteor.user().profile.group}).createUser == Meteor.user().username;
   },
   logo: function(){
     return photos.findOne({groupLogo: Meteor.user().profile.group}).url();
