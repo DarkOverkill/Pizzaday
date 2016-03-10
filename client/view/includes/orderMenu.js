@@ -1,6 +1,9 @@
 Template.orderMenu.helpers({
   items: function() {
-    return ItemsData.find();
+    return ItemsData.find({group: ""});
+  },
+  itemsOfGroup: function() {
+    return ItemsData.find({group: Meteor.user().profile.group});
   }
 });
 
@@ -12,6 +15,13 @@ Template.orderMenu.events({
      $("input#itemPrice").val(this.price);
   },
   "click button[name='saveChange']": function(event, template){
+      var groupName = "";
+      try{
+        groupName = Meteor.user().profile.group;
+      }
+      catch(e){
+        console.log(e);
+      }
       if (typeof (id) !== "undefined") {
         console.log(id);
         ItemsData.update(id, {$set:{ name: $("input#itemName").val(), price: parseFloat($("input#itemPrice").val()).toFixed(2)
@@ -19,7 +29,7 @@ Template.orderMenu.events({
       delete id;
     } else {
       console.log("insert");
-      ItemsData.insert({name: $("input#itemName").val(), price: parseFloat($("input#itemPrice").val()).toFixed(2)});
+      ItemsData.insert({name: $("input#itemName").val(), price: parseFloat($("input#itemPrice").val()).toFixed(2), group: groupName});
     }
   },
   "click button[name='cancel']": function(event, template){

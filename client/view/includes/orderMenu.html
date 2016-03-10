@@ -13,22 +13,39 @@
           <h3>Items Price:</h3>
         </div>
       </div>
-    {{#each items}}
-    <div class="row">
+    {{#if currentUser.profile.group}}
+      {{#each itemsOfGroup}}
+      <div class="row">
+        <div class="col-md-6 menuItem">
+          {{name}}
+        </div>
+        <div class="col-md-3 menuItem">
+          {{price}}
+        </div>
+        <div class="col-md-2 menuEdit">
+          <button type="button" name="edit" id="{{_id}}" data-toggle="modal" data-target="#modal-1"><span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" name="delete" id="{{_id}}"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      </div>
+      {{/each}}
 
-      <div class="col-md-6 menuItem">
-        {{name}}
+    {{else}}
+      {{#each items}}
+      <div class="row">
+        <div class="col-md-6 menuItem">
+          {{name}}
+        </div>
+        <div class="col-md-3 menuItem">
+          {{price}}
+        </div>
+        <div class="col-md-2 menuEdit">
+          <button type="button" name="edit" id="{{_id}}" data-toggle="modal" data-target="#modal-1"><span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" name="delete" id="{{_id}}"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
       </div>
-      <div class="col-md-3 menuItem">
-        {{price}}
-      </div>
-      <div class="col-md-2 menuEdit">
-        <button type="button" name="edit" id="{{_id}}" data-toggle="modal" data-target="#modal-1"><span class="glyphicon glyphicon-pencil"></span></button>
-        <button type="button" name="delete" id="{{_id}}"><span class="glyphicon glyphicon-remove"></span></button>
-      </div>
-    </div>
 
-    {{/each}}
+      {{/each}}
+    {{/if}}
     </div>
 
     <div class="col-md-2"></div>

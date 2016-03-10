@@ -1,22 +1,26 @@
 if (ItemsData.find().count() === 0) {
   ItemsData.insert({
     name: 'pizza',
-    price: '42.50'
+    price: '42.50',
+    group: ""
   });
 
   ItemsData.insert({
     name: 'cola',
-    price: '12.00'
+    price: '12.00',
+    group: ""
   });
 
   ItemsData.insert({
     name: 'Frentch fries',
-    price: '11.20'
+    price: '11.20',
+    group: ""
 });
 
   ItemsData.insert({
     name: 'Tomatp juice',
-    price: '15.70'
+    price: '15.70',
+    group: ""
 });
 }
 
