@@ -5,7 +5,13 @@
       </div>
       <div class="col-md-8">
         <input type="button" value="Make pizza event" data-toggle="modal" data-target="#modal-newPizzaEvent">
-
+        <input type="date" class="form-control" id="onDate2" readOnly="true">
+        <input type="number" name="some_name" value="1" class="width_35" min="1" max="99">
+        <select id="" name="" size="1">
+          {{#each groupMenu}}
+            <option value="{{name}}">{{name}} - {{price}}$</option>
+          {{/each}}
+        </select>
       </div>
       <div class="col-md-2">
       </div>
