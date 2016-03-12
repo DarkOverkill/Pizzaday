@@ -10,6 +10,22 @@ div.menuEdit{
 div.menuHead{
   margin:2px;
 }
+div.event{
+  background-color: #ddd;
+  margin:2px;
+  padding: 5px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+div.eventSelect{
+  background-color: #ddd;
+  margin:2px;
+  padding: 5px 0px 5px 0px;
+  text-align: center;
+  /*font-weight: bold;*/
+  font-size: 16px;
+}
 #myModal.modal-dialog {
 width: 500px!important;
 }

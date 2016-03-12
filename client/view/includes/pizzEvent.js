@@ -8,14 +8,33 @@ Template.pizzaEvent.events({
        onDate: onDate.toISOString().split('T')[0],
        group: Meteor.user().profile.group,
        status: "ordering",
-       eventCreator: Meteor.user().username});
+       eventCreator: Meteor.user().username,
+       usersAccept: [Meteor.user().username],
+       usersReject: [""]
+     });
   }
 });
 Template.pizzaEvent.helpers({
   events: function(){
-    PizzaEvent.find({group: Meteor.user().profile.group});
+    return PizzaEvent.find({group: Meteor.user().profile.group});
   },
   groupMenu: function(){
-    return ItemsData.find({group: /*Meteor.user().profile.group*/""});
+    return ItemsData.find({group: Meteor.user().profile.group});
+  },
+  /*eventCreator: function(){
+    var event = PizzaEvent.find({group: Meteor.user().profile.group}).fetch();
+    var currUser = Meteor.user().username;
+    var creators = [];
+    for (var i =0; i < event.length; i++){
+      creators[i] = event[i].eventCreator == currUser;
+    }
+    return creators;
+  }*/
+});
+Template.registerHelper("compare", function(v1, v2){
+  if (typeof v1 === 'object' && typeof v2 === 'object') {
+    return _.isEqual(v1, v2); // do a object comparison
+  } else {
+    return v1 === v2;
   }
 });
