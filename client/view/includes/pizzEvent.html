@@ -33,14 +33,14 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
         Make order:
-        <select id="" name="" size="1">
+        <select id="" name="items-{{_id}}" size="1">
           {{#each groupMenu}}
-            <option value="{{name}}">{{name}} - {{price}} $</option>
+            <option value="{{name}}" data-itemId="{{_id}}" name="">{{name}} - {{price}} $</option>
           {{/each}}
         </select>
         count:
-        <input type="number" name="some_name" value="1" class="width_35" min="1" max="99">
-        <button id="button">add to chart</button>
+        <input type="number" name="itemCount-{{_id}}" value="1" class="width_35" min="1" max="99">
+        <button id="addToChart">add to chart</button>
         </div>
         <div class="col-md-3"></div>
       </div>

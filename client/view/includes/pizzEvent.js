@@ -12,6 +12,13 @@ Template.pizzaEvent.events({
        usersAccept: [Meteor.user().username],
        usersReject: [""]
      });
+  },
+  "click button#addToChart": function(event, template){
+    var eventId = this._id;
+    var itemId = $('select[name="items-' + eventId + '"] option:selected').data("itemid");
+    var itemCount = $('input[name="itemCount-' + eventId + '"]').val();
+    PizzaEvent.update({_id: eventId}, {$push: {order: {"itemId": itemId, "count": itemCount, "user": Meteor.user().username}}});
+    //console.log(ItemsData.findOne({_id: itemId}).name + "\t" + itemCount);
   }
 });
 Template.pizzaEvent.helpers({
