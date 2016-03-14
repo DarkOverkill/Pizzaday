@@ -52,7 +52,19 @@ Template.pizzaEvent.events({
 });
 Template.pizzaEvent.helpers({
   events: function(){
-    return PizzaEvent.find({group: Meteor.user().profile.group}, {sort: {onDate: 1}});
+    //return PizzaEvent.find({group: Meteor.user().profile.group}, {sort: {onDate: 1}});
+    var user = Meteor.user().username;
+    var events = PizzaEvent.find({group: Meteor.user().profile.group}, {sort: {onDate: 1}}).fetch();
+    for(var i = 0; i < events.length; i++) {
+      var userAccept = PizzaEvent.findOne({_id: events[i]._id, usersAccept: {$in: [user]}});
+      var userReject = PizzaEvent.findOne({_id: events[i]._id, usersReject: {$in: [user]}});
+      if (userAccept || userReject){
+        events[i].userConfirm = true;
+      } else {
+        events[i].userConfirm = false;
+      }
+    }
+    return events;
   },
   groupMenu: function(){
     return ItemsData.find({group: Meteor.user().profile.group});
