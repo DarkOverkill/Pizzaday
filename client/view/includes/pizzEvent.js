@@ -41,6 +41,11 @@ Template.pizzaEvent.events({
     }
     elem = $('input[name="totalCost"]');
     elem.val("Total cost: " + total + " $");
+  },
+
+  "change select[name='orderStatus']": function(event, template){
+    var orderStatus = $('select[data-eventId='+ this._id +']')[0].value;
+    PizzaEvent.update({_id: this._id}, {$set: {status: orderStatus}});
   }
 });
 Template.pizzaEvent.helpers({

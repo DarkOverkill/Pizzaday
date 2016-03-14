@@ -15,7 +15,7 @@
         <div class="col-md-5 event">{{name}} - {{onDate}}</div>
         <div class="col-md-1 eventSelect">
           {{#if compare this.eventCreator currentUser.username}}
-          <select size="1">
+          <select size="1" name="orderStatus" data-eventId={{_id}}>
             <option selected disabled>{{status}}</option>
             <option>ordering</option>
             <option>ordered</option>
