@@ -31,13 +31,15 @@ Template.pizzaEvent.events({
     var count, price, total = 0;
     var order = PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).order;
     for (var i = 0; i < order.length; i++){
-      item = ItemsData.findOne({_id: order[i].itemId});
-      count = parseInt(order[i].count);
-      price = parseFloat(item.price);
-      oldElem = elem.html();
-      total += price*count;
-      addRow = '<div class="row">'+ item.name + ' (' + price + '$) x ' + count + ' = ' + price*count + '$ </div>';
-      elem.html(oldElem + addRow);
+      if(order[i].user == Meteor.user().username){
+        item = ItemsData.findOne({_id: order[i].itemId});
+        count = parseInt(order[i].count);
+        price = parseFloat(item.price);
+        oldElem = elem.html();
+        total += price*count;
+        addRow = '<div class="row">'+ item.name + ' (' + price + '$) x ' + count + ' = ' + price*count + '$ </div>';
+        elem.html(oldElem + addRow);
+      }
     }
     elem = $('input[name="totalCost"]');
     elem.val("Total cost: " + total + " $");
