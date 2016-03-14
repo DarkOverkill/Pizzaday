@@ -22,8 +22,25 @@ Template.pizzaEvent.events({
   },
 
   "click button#seeOrder" : function(event, template){
-    $('input[name="eventIdtoSeeOrder"]').val(this._id);
-    //Template.pizzaEvent.Foo("event");
+    var eventId = this._id;
+    var oldElem;
+    var addRow;
+    var elem = $('div[name="item"]');
+    elem.html("");
+    var item;
+    var count, price, total = 0;
+    var order = PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).order;
+    for (var i = 0; i < order.length; i++){
+      item = ItemsData.findOne({_id: order[i].itemId});
+      count = parseInt(order[i].count);
+      price = parseFloat(item.price);
+      oldElem = elem.html();
+      total += price*count;
+      addRow = '<div class="row">'+ item.name + ' (' + price + '$) x ' + count + ' = ' + price*count + '$ </div>';
+      elem.html(oldElem + addRow);
+    }
+    elem = $('input[name="totalCost"]');
+    elem.val("Total cost: " + total + " $");
   }
 });
 Template.pizzaEvent.helpers({
@@ -32,37 +49,9 @@ Template.pizzaEvent.helpers({
   },
   groupMenu: function(){
     return ItemsData.find({group: Meteor.user().profile.group});
-  },
-  orderedItems : function(){
-    //var eventId = $('input[name="eventIdtoSeeOrder"]').val();
-    //var returnOrder = [];
-    //var order = PizzaEvent.find({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).order;
-    //console.log(order.length);
-    //Template.pizzaEvent.Foo("helper");
-    //for (var i = 0; i < order.length; i++){
-    //
-    //}
   }
-  /*eventCreator: function(){
-    var event = PizzaEvent.find({group: Meteor.user().profile.group}).fetch();
-    var currUser = Meteor.user().username;
-    var creators = [];
-    for (var i =0; i < event.length; i++){
-      creators[i] = event[i].eventCreator == currUser;
-    }
-    return creators;
-  }*/
 });
-/*
-Template.pizzaEvent.Foo = function(a){
-  console.log(a);
-};
 
-Template.pizzaEvent.created = function (a) {
-
-  Template.pizzaEvent.Foo(a);
-};
-*/
 Template.registerHelper("compare", function(v1, v2){
   if (typeof v1 === 'object' && typeof v2 === 'object') {
     return _.isEqual(v1, v2); // do a object comparison
