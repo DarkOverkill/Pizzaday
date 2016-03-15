@@ -1,13 +1,12 @@
 <template name="pizzaEvent">
   <div class="container">
+    {{#if currentUser}}
     <div class="row">
-      <div class="col-md-2">
-      </div>
+      <div class="col-md-2"></div>
       <div class="col-md-8">
         <input type="button" value="Make pizza event" data-toggle="modal" data-target="#modal-newPizzaEvent">
       </div>
-      <div class="col-md-2">
-      </div>
+      <div class="col-md-2"></div>
     </div>
 
     {{#each events}}
@@ -53,6 +52,10 @@
         <div class="col-md-3"></div>
       </div>
     {{/each}}
+    
+    {{else}}
+      <h4>Please login</h4>
+    {{/if}}
   </div>
 
 <!-- Pizza Eevnt modal-->

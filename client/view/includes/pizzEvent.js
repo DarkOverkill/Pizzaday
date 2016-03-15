@@ -48,6 +48,12 @@ Template.pizzaEvent.events({
   "change select[name='orderStatus']": function(event, template){
     var orderStatus = $('select[data-eventId='+ this._id +']')[0].value;
     PizzaEvent.update({_id: this._id}, {$set: {status: orderStatus}});
+  },
+  "click button[name=acceptEvent]": function(event, template) {
+    PizzaEvent.update({_id: this._id}, {$push: {usersAccept: Meteor.user().username}});
+  },
+  "click button[name=rejectEvent]": function(event, template) {
+    PizzaEvent.update({_id: this._id}, {$push: {usersReject: Meteor.user().username}});
   }
 });
 Template.pizzaEvent.helpers({
