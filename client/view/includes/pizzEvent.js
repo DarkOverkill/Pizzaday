@@ -84,3 +84,12 @@ Template.registerHelper("compare", function(v1, v2){
     return v1 === v2;
   }
 });
+
+Template.registerHelper("userAccept", function(eventId, user){
+  console.log(eventId + "\t" + user);
+  if (PizzaEvent.findOne({_id: eventId, usersAccept: {$in: [user]}})) {
+    return true;
+  } else {
+    return false;
+  }
+});
