@@ -22,6 +22,7 @@ Template.pizzaEvent.events({
   },
 
   "click button#seeOrder" : function(event, template){
+    Meteor.call("sendEmail", 'mbg22@mail.ru', this.name, "пыщ пыщ пыщ");
     var eventId = this._id;
     var oldElem;
     var addRow;
