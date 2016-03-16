@@ -21,6 +21,13 @@ Template.pizzaEvent.events({
     //console.log(ItemsData.findOne({_id: itemId}).name + "\t" + itemCount);
   },
 
+  "click button#addCoupon": function(event, template){
+    var eventId = this._id;
+    var itemId = $('select[name="items-' + eventId + '"] option:selected').data("itemid");
+    var itemName = ItemsData.findOne({_id: itemId}).name;
+    PizzaEvent.update({_id: eventId}, {$push: {coupon: {"itemId": itemId, "itemName": itemName}}});
+  },
+
   "click button#seeOrder" : function(event, template){
     var eventId = this._id;
     var oldElem;
@@ -52,29 +59,53 @@ Template.pizzaEvent.events({
     //send email if status change on ordered
     if(orderStatus == 'ordered') {
       var eventId = this._id;
+      var costOfAllItems = 0;
+      var allItems = [];
       var orderToSend;
       var emailToUser;
       var item, count, price, total = 0;
       var order = PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).order;
       var usersAccept = PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).usersAccept;
       var eventCreator = PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).eventCreator;
-
+      var coupon =  PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).coupon;
+      var discontFromCoupon = 0;
+      var discontForAcceptUser;
+      for (var i = 0; i < coupon.length; i++){
+        var itemPrice = parseFloat(ItemsData.findOne({_id: coupon[i].itemId}).price);
+        discontFromCoupon += itemPrice;
+      }
+      discontForAcceptUser = Math.floor(discontFromCoupon / parseInt(usersAccept.length));
+      //send for each user
       for(var j = 0; j < usersAccept.length; j++){
         orderToSend = "Your order:\n";
         total = 0;
         for (var i = 0; i < order.length; i++){
-          if(usersAccept[j] == Meteor.user().username){
-            item = ItemsData.findOne({_id: order[i].itemId});
-            count = parseInt(order[i].count);
-            price = parseFloat(item.price);
-            total += price*count;
-            orderToSend += '\t'+ item.name + ' (' + price + '$) x ' + count + ' = ' + price*count + '\n';
+            if(usersAccept[j] == order[i].user){
+              item = ItemsData.findOne({_id: order[i].itemId});
+              count = parseInt(order[i].count);
+              allItems.push([item.name, count]);
+              price = parseFloat(item.price);
+              total += price*count;
+              orderToSend += '\t'+ item.name + ' (' + price + '$) x ' + count + ' = ' + price*count + '\n';
           }
+        }
+        costOfAllItems += total;
+        if (total > 0) {
+          orderToSend += '\t\tyour discount: ' + discontForAcceptUser + '$\n';
+          total -= discontForAcceptUser;
         }
         orderToSend += 'You must give: '  + total + '$, to \"' + eventCreator + '\"';
         emailToUser = usersAccept[j];
         Meteor.call("sendEmail", emailToUser , this.name, orderToSend);
     }
+    //send total info to event creator
+
+    orderToSend = 'You must order: \n';
+    for (var i = 0; i < allItems.length; i++){
+        orderToSend += '\t'+ allItems[i][0] + ' x ' + allItems[i][1] + '\n';
+    }
+    orderToSend += 'On total cost: ' + costOfAllItems + '$.\n discont is ' + discontFromCoupon + '$. To pay: ' + (costOfAllItems - discontFromCoupon);
+    Meteor.call("sendEmail", eventCreator , this.name, orderToSend);
   }
   },
   "click button[name=acceptEvent]": function(event, template) {
@@ -86,7 +117,6 @@ Template.pizzaEvent.events({
 });
 Template.pizzaEvent.helpers({
   events: function(){
-    //return PizzaEvent.find({group: Meteor.user().profile.group}, {sort: {onDate: 1}});
     var user = Meteor.user().username;
     var events = PizzaEvent.find({group: Meteor.user().profile.group}, {sort: {onDate: 1}}).fetch();
     for(var i = 0; i < events.length; i++) {
@@ -114,7 +144,6 @@ Template.registerHelper("compare", function(v1, v2){
 });
 
 Template.registerHelper("userAccept", function(eventId, user){
-  //console.log(eventId + "\t" + user);
   if (PizzaEvent.findOne({_id: eventId, usersAccept: {$in: [user]}})) {
     return true;
   } else {

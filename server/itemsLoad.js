@@ -55,10 +55,6 @@ Meteor.methods({
     console.log('ok');
   }
 });
-/*
-Meteor.startup( function() {
-  process.env.MAIL_URL = "smtp://postmaster%40<your-mailgun-address>.mailgun.org:password@smtp.mailgun.org:587";
-});*/
 
 Meteor.startup(function () {
   smtp = {
@@ -75,16 +71,19 @@ Meteor.methods({
 
     // Let other method calls from the same client start running,
     // without waiting for the email sending to complete.
-  
+
     this.unblock();
-    Email.send({
-          to: Meteor.users.findOne({username: to}).emails[0].address,
-          from: 'pizzadaytest@gmail.com',
-          subject: 'Order on event - ' + event,
-          text: text
-        });
+    try{
+      Email.send({
+            to: Meteor.users.findOne({username: to}).emails[0].address,
+            from: 'pizzadaytest@gmail.com',
+            subject: 'Order on event - ' + event,
+            text: text
+          });
+      } catch(e){
+        console.log(e);
+      }
   }
 });
-
 
 console.log('ok');

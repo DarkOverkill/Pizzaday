@@ -11,8 +11,14 @@
 
     {{#each events}}
       <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-5 event">{{name}} - {{onDate}}</div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-5 event">
+          {{name}} - {{onDate}}
+          {{#each coupon}}
+            <span class="glyphicon glyphicon-gift" title='Free coupon for {{itemName}}'></span>
+          {{/each}}
+        </div>
         <div class="col-md-1 eventSelect">
           {{#if compare this.eventCreator currentUser.username}}
           <select size="1" name="orderStatus" data-eventId={{_id}}>
@@ -43,9 +49,12 @@
                   </select>
                   count:
                   <input type="number" name="itemCount-{{_id}}" value="1" class="width_35" min="1" max="99">
-                  <button id="addToChart">add to chart</button>
+                  <button id="addToChart" class="glyphicon glyphicon-shopping-cart" title="add to chart"></button>
+                  {{#if compare this.eventCreator currentUser.username}}
+                    <button id="addCoupon" class="glyphicon glyphicon-plus" title="add free coupon for item"></button>
+                  {{/if}}
               {{/if}}
-                <button id="seeOrder" data-toggle="modal" data-target="#modal-seeOrder">Your order</button>
+                <button id="seeOrder" data-toggle="modal" data-target="#modal-seeOrder" class="glyphicon glyphicon-info-sign" title="Your order"></button>
             {{/if}}
           {{else}}
             <button type="button" class="btn btn-success" name="acceptEvent">Accept</button>
