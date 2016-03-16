@@ -22,7 +22,6 @@ Template.pizzaEvent.events({
   },
 
   "click button#seeOrder" : function(event, template){
-    Meteor.call("sendEmail", 'mbg22@mail.ru', this.name, "пыщ пыщ пыщ");
     var eventId = this._id;
     var oldElem;
     var addRow;
@@ -49,6 +48,34 @@ Template.pizzaEvent.events({
   "change select[name='orderStatus']": function(event, template){
     var orderStatus = $('select[data-eventId='+ this._id +']')[0].value;
     PizzaEvent.update({_id: this._id}, {$set: {status: orderStatus}});
+
+    //send email if status change on ordered
+    if(orderStatus == 'ordered') {
+      var eventId = this._id;
+      var orderToSend;
+      var emailToUser;
+      var item, count, price, total = 0;
+      var order = PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).order;
+      var usersAccept = PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).usersAccept;
+      var eventCreator = PizzaEvent.findOne({_id: eventId, group: Meteor.user().profile.group}, {sort: {onDate: 1}}).eventCreator;
+
+      for(var j = 0; j < usersAccept.length; j++){
+        orderToSend = "Your order:\n";
+        total = 0;
+        for (var i = 0; i < order.length; i++){
+          if(usersAccept[j] == Meteor.user().username){
+            item = ItemsData.findOne({_id: order[i].itemId});
+            count = parseInt(order[i].count);
+            price = parseFloat(item.price);
+            total += price*count;
+            orderToSend += '\t'+ item.name + ' (' + price + '$) x ' + count + ' = ' + price*count + '\n';
+          }
+        }
+        orderToSend += 'You must give: '  + total + '$, to \"' + eventCreator + '\"';
+        emailToUser = usersAccept[j];
+        Meteor.call("sendEmail", emailToUser , this.name, orderToSend);
+    }
+  }
   },
   "click button[name=acceptEvent]": function(event, template) {
     PizzaEvent.update({_id: this._id}, {$push: {usersAccept: Meteor.user().username}});
@@ -87,7 +114,7 @@ Template.registerHelper("compare", function(v1, v2){
 });
 
 Template.registerHelper("userAccept", function(eventId, user){
-  console.log(eventId + "\t" + user);
+  //console.log(eventId + "\t" + user);
   if (PizzaEvent.findOne({_id: eventId, usersAccept: {$in: [user]}})) {
     return true;
   } else {
