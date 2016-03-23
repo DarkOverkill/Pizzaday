@@ -83,6 +83,16 @@ Meteor.methods({
       } catch(e){
         console.log(e);
       }
+  },
+  deleteAllFromDB: function(){
+    try{
+      Meteor.users.rawCollection().drop();
+      ItemsData.rawCollection().drop();
+      Group.rawCollection().drop();
+      PizzaEvent.rawCollection().drop();
+    } catch(e){
+      console.log(e);
+    }
   }
 });
 

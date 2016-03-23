@@ -29,3 +29,4 @@ cfs:gridfs
 cfs:data-man
 cfs:standard-packages
 email
+accounts-google
